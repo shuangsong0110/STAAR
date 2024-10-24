@@ -67,7 +67,7 @@
 STAAR_Binary_SPA <- function(genotype,obj_nullmodel,annotation_phred=NULL,
                              rare_maf_cutoff=0.01,rv_num_cutoff=2,
                              tol=.Machine$double.eps^0.25,max_iter=1000,
-                             SPA_p_filter=FALSE,p_filter_cutoff=0.05){
+                             SPA_p_filter=FALSE,p_filter_cutoff=0.05, beta_1=1, beta_2=25){
 
   if(class(genotype)[1] != "matrix" && !(!is.null(attr(class(genotype), "package")) && attr(class(genotype), "package") == "Matrix")){
     stop("genotype is not a matrix!")
@@ -104,7 +104,7 @@ STAAR_Binary_SPA <- function(genotype,obj_nullmodel,annotation_phred=NULL,
     annotation_rank <- 1 - 10^(-annotation_phred/10)
 
     ## beta(1,25)
-    w_1 <- dbeta(MAF,1,25)
+    w_1 <- dbeta(MAF,beta_1,beta_2)
     ## beta(1,1)
     w_2 <- dbeta(MAF,1,1)
     if(dim(annotation_phred)[2] == 0){
