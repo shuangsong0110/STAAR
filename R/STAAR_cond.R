@@ -96,7 +96,7 @@
 
 STAAR_cond <- function(genotype,genotype_adj,obj_nullmodel,annotation_phred=NULL,
                        rare_maf_cutoff=0.01,rv_num_cutoff=2,
-                       method_cond=c("optimal","naive")){
+                       method_cond=c("optimal","naive"), beta_1=1, beta_2=25){
 
   method_cond <- match.arg(method_cond) # evaluate choices
   if(!inherits(genotype, "matrix") && !inherits(genotype, "Matrix")){
@@ -141,7 +141,7 @@ STAAR_cond <- function(genotype,genotype_adj,obj_nullmodel,annotation_phred=NULL
     annotation_rank <- 1 - 10^(-annotation_phred/10)
 
     ## beta(1,25)
-    w_1 <- dbeta(MAF,1,25)
+    w_1 <- dbeta(MAF,beta_1,beta_2)
     ## beta(1,1)
     w_2 <- dbeta(MAF,1,1)
     if(dim(annotation_phred)[2] == 0){
